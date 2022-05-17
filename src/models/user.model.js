@@ -20,6 +20,35 @@ class User {
       (this.address = address),
       (this.is_admin = is_admin);
   }
+
+  static create(newUser, cb) {
+    db.query(
+      `insert into users values(?,?,?,?,?,?,?,?)`,
+      [
+        newUser.id,
+        newUser.email,
+        newUser.first_name,
+        newUser.last_name,
+        newUser.password,
+        newUser.phone,
+        newUser.address,
+        newUser.is_admin,
+      ],
+      (err, result) => {
+        if (err) {
+          return cb(null, err);
+        }
+        cb(
+          {
+            first_name: newUser.first_name,
+            last_name: newUser.last_name,
+            email: newUser.email,
+          },
+          null
+        );
+      }
+    );
+  }
 }
 
 module.exports = User;
