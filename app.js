@@ -1,15 +1,19 @@
 const express = require("express");
 const cors = require("cors");
-const morgan = require("morgan");
 require("dotenv").config();
 const usersRoutes = require("./src/routes/user.routes");
 const propertyRoutes = require("./src/routes/property.routes");
-const reportRoutes = requires("./src/routes/report.routes.js");
+const reportRoutes = require("./src/routes/report.routes.js");
+const authRoutes = require("./src/routes/auth.routes.js");
 
 const app = express();
 
 //port
-const Port = process.env.PORT;
+const dev = process.env.port;
+const Port = process.env.PORT || dev;
+
+// api version
+const v1 = process.env.v1;
 
 // middlewares
 app.use(express.json());
@@ -21,9 +25,11 @@ app.get("/", (req, res) => {
   res.send("Welcome to ApexHauz Api");
 });
 
-app.use(`${process.env.v1}/users`, usersRoutes);
-app.use(`${process.env.v1}/property`, propertyRoutes);
-app.use(`${process.env.v1}/report`, reportRoutes);
+app.use(`${v1}/users`, usersRoutes);
+app.use(`${v1}/property`, propertyRoutes);
+app.use(`${v1}/report`, reportRoutes);
+
+app.use(`${v1}/auth`, authRoutes);
 
 //start server
 app.listen(Port, () => {
