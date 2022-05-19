@@ -3,7 +3,7 @@ const uniqId = require("uniqid");
 const { generate: generateToken } = require("../../utils/token");
 const { hash: hashPassword } = require("../../utils/password");
 
-exports.signUp = async (req, res) => {
+exports.signUp = async (req, res, next) => {
   // destructure fields from req.body
   const { email, first_name, last_name, password, phone, address, is_admin } =
     req.body;
@@ -32,11 +32,9 @@ exports.signUp = async (req, res) => {
   // save newUser to db using create method in User model
   User.create(newUser, (data, err) => {
     // check for errors
+    // error was passed to the errorhandler
     if (err) {
-      return res.status(500).json({
-        status: "error",
-        error: err.message,
-      });
+      return next(err);
     }
     // return token and data after creating user
     res.status(201).json({
