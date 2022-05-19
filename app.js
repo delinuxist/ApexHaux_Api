@@ -6,6 +6,14 @@ const propertyRoutes = require("./src/routes/property.routes");
 const reportRoutes = require("./src/routes/report.routes.js");
 const authRoutes = require("./src/routes/auth.routes.js");
 
+//imported middleware
+const errorHandlerMiddleware = require("./src/middlewares/error-handler");
+const notFoundMiddleware = require("./src/middlewares/notFound");
+
+// handle async errors
+require("express-async-errors");
+
+// instance of express
 const app = express();
 
 //port
@@ -18,7 +26,7 @@ const v1 = process.env.v1;
 // middlewares
 app.use(express.json());
 app.use(cors());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
 //routes
 app.get("/", (req, res) => {
@@ -30,6 +38,10 @@ app.use(`${v1}/property`, propertyRoutes);
 app.use(`${v1}/report`, reportRoutes);
 
 app.use(`${v1}/auth`, authRoutes);
+
+// custom middlewares
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
 
 //start server
 app.listen(Port, () => {
