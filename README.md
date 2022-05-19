@@ -32,3 +32,4 @@ ApexHauz is a platform where people can create and/or search properties for sale
 * JWT: Token based authentication
 * bcryptjs: Password security
 * uniqid: Generate random id
+* express-async-errors: Handle async errors
