@@ -34,6 +34,24 @@ class Property {
       cb(result, null);
     });
   }
+
+  static deletePropertyById(propId, cb) {
+    db.query(`delete from properties where id=?`, [propId], (err, result) => {
+      if (err) {
+        return cb(null, err);
+      }
+      cb(result, null);
+    });
+  }
+
+  static propertyById(prodId, cb) {
+    db.query(`select * from properties where id=?`, [prodId], (err, result) => {
+      if (err) {
+        return cb(null, err);
+      }
+      cb(result, null);
+    });
+  }
 }
 
 module.exports = Property;
