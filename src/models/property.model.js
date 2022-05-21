@@ -24,6 +24,16 @@ class Property {
       (this.image_url = image_url),
       (this.created_on = created_on);
   }
+
+  static propertiesByType(type, cb) {
+    db.query(`select * from properties where type=?`, [type], (err, result) => {
+      if (err) {
+        return cb(null, err);
+      }
+
+      cb(result, null);
+    });
+  }
 }
 
 module.exports = Property;
