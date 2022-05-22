@@ -21,3 +21,32 @@ exports.searchByType = (req, res, next) => {
     });
   });
 };
+
+exports.deletePropertyById = (req, res, next) => {
+  // destructure id from req.params
+  const { id } = req.params;
+
+  Property.propertyById(id, (data, err) => {
+    // check error
+    if (err) {
+      return next(err);
+    }
+    if (data.length === 0) {
+      return res.status(404).json({
+        error: "error",
+        message: `Property with id: ${id} not found`,
+      });
+    }
+
+    Property.deletePropertyById(id, (_, err) => {
+      // check error
+      if (err) {
+        return next(err);
+      }
+      res.status(200).json({
+        status: "success",
+        data: data,
+      });
+    });
+  });
+};
