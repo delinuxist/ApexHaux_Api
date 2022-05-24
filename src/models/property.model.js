@@ -52,6 +52,15 @@ class Property {
       cb(result, null);
     });
   }
+
+  static allProperties(cb) {
+    db.query(`select * from properties`, (err, result) => {
+      if (err) {
+        return cb(null, err);
+      }
+      cb(result, null);
+    });
+  }
 }
 
 module.exports = Property;
