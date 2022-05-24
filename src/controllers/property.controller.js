@@ -70,3 +70,23 @@ exports.productsById = (req, res, next) => {
     });
   });
 };
+
+exports.allProperties = (req, res, next) => {
+  Property.allProperties((data, err) => {
+    if (err) {
+      return next(err);
+    }
+
+    if (data.length === 0) {
+      return res.status(200).json({
+        status: "succes",
+        message: "No data.. Please create property ads",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: data,
+    });
+  });
+};
