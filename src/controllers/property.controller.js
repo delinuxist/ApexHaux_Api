@@ -11,7 +11,7 @@ exports.searchByType = (req, res, next) => {
     }
     if (data.length === 0) {
       return res.status(404).json({
-        error: "error",
+        status: "error",
         message: `Type: ${type} searched returned 0 array`,
       });
     }
@@ -33,7 +33,7 @@ exports.deletePropertyById = (req, res, next) => {
     }
     if (data.length === 0) {
       return res.status(404).json({
-        error: "error",
+        status: "error",
         message: `Property with id: ${id} not found`,
       });
     }
@@ -45,8 +45,28 @@ exports.deletePropertyById = (req, res, next) => {
       }
       res.status(200).json({
         status: "success",
-        data: data,
+        data: data[0],
       });
+    });
+  });
+};
+
+exports.productsById = (req, res, next) => {
+  const { id } = req.params;
+
+  Property.propertyById(id, (data, err) => {
+    if (err) {
+      return next(err);
+    }
+    if (data.length === 0) {
+      return res.status(404).json({
+        status: "error",
+        message: `Property with id: ${id} not found`,
+      });
+    }
+    res.status(200).json({
+      status: "success",
+      data: data[0],
     });
   });
 };
