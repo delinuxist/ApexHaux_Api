@@ -5,4 +5,6 @@ router.get("/search", propertyControllers.searchByType);
 
 router.delete("/:id", propertyControllers.deletePropertyById);
 
+router.get("/:id", propertyControllers.productsById);
+
 module.exports = router;
