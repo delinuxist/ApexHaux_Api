@@ -1,4 +1,5 @@
 const Property = require("../models/property.model");
+const cloudinary = require("../utils/cloudinary");
 
 exports.searchByType = (req, res, next) => {
   // destructure type from req.query
@@ -85,6 +86,43 @@ exports.allProperties = (req, res, next) => {
     }
 
     res.status(200).json({
+      status: "success",
+      data: data,
+    });
+  });
+};
+
+exports.createProperty = async (req, res, next) => {
+  const { owner, status, price, state, city, address, type } = req.body;
+
+  const result = await cloudinary.uploader.upload(req.file.path);
+
+  const id = result.public_id;
+
+  const image_url = result.secure_url;
+
+  const created_on = new Date().toJSON().slice(0, 19).replace("T", " ");
+
+  const newProp = new Property(
+    id,
+    owner,
+    status,
+    Number(price),
+    state,
+    city,
+    address,
+    type,
+    image_url,
+    created_on
+  );
+
+  Property.createProperty(newProp, async (err, data) => {
+    if (err) {
+      await cloudinary.uploader.destroy(id);
+      return next(err);
+    }
+
+    res.status(201).json({
       status: "success",
       data: data,
     });
