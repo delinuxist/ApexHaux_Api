@@ -35,3 +35,4 @@ ApexHauz is a platform where people can create and/or search properties for sale
 * express-async-errors: Handle async errors
 * multer: handles image file input
 * cloudinary: Storage for image file
+* http-status-codes: Handle status codes
