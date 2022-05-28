@@ -9,6 +9,7 @@ const authRoutes = require("./src/routes/auth.routes.js");
 //imported middleware
 const errorHandlerMiddleware = require("./src/middlewares/error-handler");
 const notFoundMiddleware = require("./src/middlewares/notFound");
+const AuthMiddleware = require("./src/middlewares/authMiddleware");
 
 // handle async errors
 require("express-async-errors");
@@ -34,7 +35,7 @@ app.get("/", (req, res) => {
 });
 
 app.use(`${v1}/users`, usersRoutes);
-app.use(`${v1}/property`, propertyRoutes);
+app.use(`${v1}/property`, AuthMiddleware, propertyRoutes);
 app.use(`${v1}/report`, reportRoutes);
 
 app.use(`${v1}/auth`, authRoutes);
