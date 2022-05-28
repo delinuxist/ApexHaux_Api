@@ -49,6 +49,15 @@ class User {
       }
     );
   }
+
+  static findUserByEmail(email, cb) {
+    db.query(`select * from users where email=?`, [email], (err, result) => {
+      if (err) {
+        return cb(err, null);
+      }
+      cb(null, result[0]);
+    });
+  }
 }
 
 module.exports = User;
