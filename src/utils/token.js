@@ -1,4 +1,6 @@
+const { StatusCodes } = require("http-status-codes");
 const jwt = require("jsonwebtoken");
+const CustomAPIError = require("../errors/custom-error");
 require("dotenv").config();
 
 const secret = process.env.TOKEN_SECRET;
@@ -9,7 +11,7 @@ const decode = (token) => {
   try {
     return jwt.verify(token, secret);
   } catch (err) {
-    console.log(err);
+    throw new CustomAPIError("Not Authenticated", StatusCodes.UNAUTHORIZED);
   }
 };
 
