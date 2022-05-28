@@ -13,17 +13,11 @@ const AuthMiddleware = (req, res, next) => {
 
   const token = authHeader.split(" ")[1];
 
-  try {
-    const payload = decode(token);
-    req.user = {
-      userId: payload.id,
-    };
-  } catch (err) {
-    return res.status(StatusCodes.UNAUTHORIZED).json({
-      status: "error",
-      message: "Not Authorized or Invalid Token",
-    });
-  }
+  const payload = decode(token);
+  req.user = {
+    userId: payload.id,
+  };
+
   next();
 };
 
