@@ -93,13 +93,15 @@ exports.allProperties = (req, res, next) => {
 };
 
 exports.createProperty = async (req, res, next) => {
-  const { owner, status, price, state, city, address, type } = req.body;
+  const { status, price, state, city, address, type } = req.body;
 
   const result = await cloudinary.uploader.upload(req.file.path);
 
   const id = result.public_id;
 
   const image_url = result.secure_url;
+
+  const owner = req.user.userId;
 
   const created_on = new Date().toJSON().slice(0, 19).replace("T", " ");
 
