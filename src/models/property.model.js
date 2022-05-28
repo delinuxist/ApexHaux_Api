@@ -53,13 +53,17 @@ class Property {
     });
   }
 
-  static allProperties(cb) {
-    db.query(`select * from properties`, (err, result) => {
-      if (err) {
-        return cb(null, err);
+  static allProperties(ownerId, cb) {
+    db.query(
+      `select * from properties where owner=?`,
+      [ownerId],
+      (err, result) => {
+        if (err) {
+          return cb(null, err);
+        }
+        cb(result, null);
       }
-      cb(result, null);
-    });
+    );
   }
 }
 
