@@ -73,7 +73,8 @@ exports.productsById = (req, res, next) => {
 };
 
 exports.allProperties = (req, res, next) => {
-  Property.allProperties((data, err) => {
+  const ownerId = req.user.userId;
+  Property.allProperties(ownerId, (data, err) => {
     if (err) {
       return next(err);
     }
