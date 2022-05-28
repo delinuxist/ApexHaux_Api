@@ -87,6 +87,7 @@ exports.allProperties = (req, res, next) => {
 
     res.status(200).json({
       status: "success",
+      count: data.length,
       data: data,
     });
   });
