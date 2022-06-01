@@ -35,10 +35,10 @@ class Property {
     });
   }
 
-  static deletePropertyById(input, cb) {
+  static deletePropertyById({ prodId, ownerId }, cb) {
     db.query(
       `delete from properties where id=? and owner=?`,
-      [input.propId, input.ownerId],
+      [prodId, ownerId],
       (err, result) => {
         if (err) {
           return cb(null, err);
