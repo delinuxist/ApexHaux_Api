@@ -26,20 +26,22 @@ exports.searchByType = (req, res, next) => {
 exports.deletePropertyById = (req, res, next) => {
   // destructure id from req.params
   const { id } = req.params;
+  // get user id from req.user
+  const ownerId = req.user.userId;
 
   Property.propertyById(id, (data, err) => {
     // check error
     if (err) {
       return next(err);
     }
-    if (data.length === 0) {
+    if (!data) {
       return res.status(404).json({
         status: "error",
         message: `Property with id: ${id} not found`,
       });
     }
 
-    Property.deletePropertyById(id, (_, err) => {
+    Property.deletePropertyById(id, ownerId, (_, err) => {
       // check error
       if (err) {
         return next(err);
