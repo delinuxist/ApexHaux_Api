@@ -48,17 +48,13 @@ class Property {
     );
   }
 
-  static propertyById(id, cb) {
-    db.query(
-      `select * from properties where id=?`,
-      [prodId, ownerId],
-      (err, result) => {
-        if (err) {
-          return cb(null, err);
-        }
-        cb(result[0], null);
+  static propertyById(prodId, cb) {
+    db.query(`select * from properties where id=?`, [prodId], (err, result) => {
+      if (err) {
+        return cb(null, err);
       }
-    );
+      cb(result[0], null);
+    });
   }
 
   static allProperties(ownerId, cb) {
