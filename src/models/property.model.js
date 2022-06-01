@@ -53,7 +53,7 @@ class Property {
       if (err) {
         return cb(null, err);
       }
-      cb(result[0], null);
+      cb(result, null);
     });
   }
 
