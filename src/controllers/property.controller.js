@@ -5,7 +5,10 @@ exports.searchByType = (req, res, next) => {
   // destructure type from req.query
   const { type } = req.query;
 
-  Property.propertiesByType(type, (data, err) => {
+  // get user id from req.user
+  const ownerId = req.user.userId;
+
+  Property.propertiesByType({ type, ownerId }, (data, err) => {
     // check errors
     if (err) {
       return next(err);
