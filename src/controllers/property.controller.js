@@ -38,7 +38,7 @@ exports.deletePropertyById = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    if (!data) {
+    if (data.length === 0) {
       return res.status(404).json({
         error: "error",
         message: `Property with id: ${id} not found`,
