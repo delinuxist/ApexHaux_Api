@@ -40,6 +40,14 @@ exports.deletePropertyById = (req, res, next) => {
       });
     }
 
+    // check if property belongs to user
+    if (ownerId !== data[0].owner) {
+      return res.status(401).json({
+        status: "error",
+        message: "Not authorized",
+      });
+    }
+
     Property.deletePropertyById(
       { prodId: id, ownerId: ownerId },
       async (_, err) => {
