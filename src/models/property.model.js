@@ -35,18 +35,22 @@ class Property {
     });
   }
 
-  static deletePropertyById(propId, cb) {
-    db.query(`delete from properties where id=?`, [propId], (err, result) => {
-      if (err) {
-        return cb(null, err);
+  static deletePropertyById(input, cb) {
+    db.query(
+      `delete from properties where id=? and owner=?`,
+      [input.propId, input.ownerId],
+      (err, result) => {
+        if (err) {
+          return cb(null, err);
+        }
+        cb(result, null);
       }
-      cb(result, null);
-    });
+    );
   }
 
-  static propertyById(prodId, ownerId, cb) {
+  static propertyById(id, cb) {
     db.query(
-      `select * from properties where id=? and owner=?`,
+      `select * from properties where id=?`,
       [prodId, ownerId],
       (err, result) => {
         if (err) {
