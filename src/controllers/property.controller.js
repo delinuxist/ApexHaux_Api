@@ -28,11 +28,6 @@ exports.deletePropertyById = (req, res, next) => {
   // get user id from req.user
   const ownerId = req.user.userId;
 
-  const input = {
-    id,
-    ownerId,
-  };
-
   Property.propertyById(id, (data, err) => {
     // check error
     if (err) {
@@ -45,14 +40,14 @@ exports.deletePropertyById = (req, res, next) => {
       });
     }
 
-    Property.deletePropertyById(input, (_, err) => {
+    Property.deletePropertyById({ prodId: id, ownerId: ownerId }, (_, err) => {
       // check error
       if (err) {
         return next(err);
       }
       res.status(200).json({
         status: "success",
-        data: data,
+        data: data[0],
       });
     });
   });
