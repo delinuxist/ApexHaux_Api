@@ -25,14 +25,18 @@ class Property {
       (this.created_on = created_on);
   }
 
-  static propertiesByType(type, cb) {
-    db.query(`select * from properties where type=?`, [type], (err, result) => {
-      if (err) {
-        return cb(null, err);
-      }
+  static propertiesByType({ type, ownerId }, cb) {
+    db.query(
+      `select * from properties where type=? and owner=?`,
+      [type, ownerId],
+      (err, result) => {
+        if (err) {
+          return cb(null, err);
+        }
 
-      cb(result, null);
-    });
+        cb(result, null);
+      }
+    );
   }
 
   static deletePropertyById({ prodId, ownerId }, cb) {
