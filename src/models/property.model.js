@@ -44,13 +44,17 @@ class Property {
     });
   }
 
-  static propertyById(prodId, cb) {
-    db.query(`select * from properties where id=?`, [prodId], (err, result) => {
-      if (err) {
-        return cb(null, err);
+  static propertyById(prodId, ownerId, cb) {
+    db.query(
+      `select * from properties where id=? and owner=?`,
+      [prodId, ownerId],
+      (err, result) => {
+        if (err) {
+          return cb(null, err);
+        }
+        cb(result[0], null);
       }
-      cb(result, null);
-    });
+    );
   }
 
   static allProperties(ownerId, cb) {
