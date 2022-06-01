@@ -40,15 +40,22 @@ exports.deletePropertyById = (req, res, next) => {
       });
     }
 
-    Property.deletePropertyById({ prodId: id, ownerId: ownerId }, (_, err) => {
-      // check error
-      if (err) {
-        return next(err);
+    Property.deletePropertyById(
+      { prodId: id, ownerId: ownerId },
+      async (_, err) => {
+        // check error
+        if (err) {
+          return next(err);
+        }
+
+        // removing image from cloudinary
+        await cloudinary.uploader.destroy(id);
+
+        res.status(200).json({
+          status: "success",
+          data: data[0],
+        });
       }
-      res.status(200).json({
-        status: "success",
-        data: data[0],
-      });
-    });
+    );
   });
 };
